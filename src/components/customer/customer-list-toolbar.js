@@ -8,11 +8,13 @@ import {
   SvgIcon, Typography
 } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
+import { useRouter } from 'next/router'
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 
-export const CustomerListToolbar = (props) => (
-  <Box {...props}>
+export const CustomerListToolbar = (props) => {
+  const router = useRouter();
+  return <Box {...props}>
     <Box
       sx={{
         alignItems: 'center',
@@ -26,26 +28,17 @@ export const CustomerListToolbar = (props) => (
         sx={{ m: 1 }}
         variant="h4"
       >
-        Customers
+        Danh sách bệnh nhân
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Import
-        </Button>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Export
-        </Button>
-        <Button
           color="primary"
           variant="contained"
+          onClick={() => {
+            router.push('/add-patient')
+          }}
         >
-          Add Customers
+          Thêm bệnh nhân
         </Button>
       </Box>
     </Box>
@@ -67,7 +60,7 @@ export const CustomerListToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search customer"
+              placeholder="Tên bệnh nhân"
               variant="outlined"
             />
           </Box>
@@ -75,4 +68,4 @@ export const CustomerListToolbar = (props) => (
       </Card>
     </Box>
   </Box>
-);
+}

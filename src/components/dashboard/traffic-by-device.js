@@ -3,22 +3,30 @@ import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } fro
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TabletIcon from '@mui/icons-material/Tablet';
+import { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
-
-  const data = {
+  const [tile, setTile] = useState(0);
+  useEffect(() => {
+    axios.get('http://localhost:8080/ti-le')
+      .then((data) => {
+        setTile(data.data.data.mac / (data.data.data.khoe + data.data.data.mac) * 100)
+      })
+  }, [])
+  const data = useMemo(() => ({
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [100 - tile, tile],
         backgroundColor: ['#3F51B5', '#e53935', '#FB8C00'],
         borderWidth: 8,
         borderColor: '#FFFFFF',
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
-  };
+    labels: ['Khỏe mạnh', 'Mắc bệnh']
+  }), [tile])
 
   const options = {
     animation: false,
@@ -42,30 +50,24 @@ export const TrafficByDevice = (props) => {
     }
   };
 
-  const devices = [
+  const devices = useMemo(() => [
     {
-      title: 'Desktop',
-      value: 63,
+      title: 'Khỏe mạnh',
+      value: Math.round(100 - tile),
       icon: LaptopMacIcon,
       color: '#3F51B5'
     },
     {
-      title: 'Tablet',
-      value: 15,
+      title: 'Mắc bệnh',
+      value: Math.round(tile),
       icon: TabletIcon,
       color: '#E53935'
-    },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: '#FB8C00'
     }
-  ];
+  ], [tile])
 
   return (
     <Card {...props}>
-      <CardHeader title="Traffic by Device" />
+      <CardHeader title="Tỉ lệ mắc bệnh tiểu đường" />
       <Divider />
       <CardContent>
         <Box
@@ -99,7 +101,7 @@ export const TrafficByDevice = (props) => {
                 textAlign: 'center'
               }}
             >
-              <Icon color="action" />
+          
               <Typography
                 color="textPrimary"
                 variant="body1"

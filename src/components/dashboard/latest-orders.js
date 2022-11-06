@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useRouter } from 'next/router'
 import {
   Box,
   Button,
@@ -16,83 +17,35 @@ import {
 } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 
-const orders = [
-  {
-    id: uuid(),
-    ref: 'CDD1049',
-    amount: 30.5,
-    customer: {
-      name: 'Ekaterina Tankova'
-    },
-    createdAt: 1555016400000,
-    status: 'pending'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1048',
-    amount: 25.1,
-    customer: {
-      name: 'Cao Yu'
-    },
-    createdAt: 1555016400000,
-    status: 'delivered'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1047',
-    amount: 10.99,
-    customer: {
-      name: 'Alexa Richardson'
-    },
-    createdAt: 1554930000000,
-    status: 'refunded'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1046',
-    amount: 96.43,
-    customer: {
-      name: 'Anje Keizer'
-    },
-    createdAt: 1554757200000,
-    status: 'pending'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1045',
-    amount: 32.54,
-    customer: {
-      name: 'Clarke Gillebert'
-    },
-    createdAt: 1554670800000,
-    status: 'delivered'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1044',
-    amount: 16.76,
-    customer: {
-      name: 'Adam Denisov'
-    },
-    createdAt: 1554670800000,
-    status: 'delivered'
-  }
-];
 
-export const LatestOrders = (props) => (
-  <Card {...props}>
-    <CardHeader title="Latest Orders" />
+export const LatestOrders = (props) => {
+  const [latestPatient, setLastestPatient] = useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:8080/patients?page=${0}`)
+      .then((data) => {
+        setLastestPatient(data.data.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
+  const router = useRouter();
+  return <Card {...props}>
+    <CardHeader title="Bệnh nhân gần nhất" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>
-                Order Ref
+                ID
               </TableCell>
               <TableCell>
-                Customer
+                Name
               </TableCell>
               <TableCell sortDirection="desc">
                 <Tooltip
@@ -103,7 +56,7 @@ export const LatestOrders = (props) => (
                     active
                     direction="desc"
                   >
-                    Date
+                    Time
                   </TableSortLabel>
                 </Tooltip>
               </TableCell>
@@ -113,27 +66,26 @@ export const LatestOrders = (props) => (
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
+            {latestPatient.map((patient) => (
               <TableRow
                 hover
-                key={order.id}
+                key={patient._id}
               >
                 <TableCell>
-                  {order.ref}
+                  {patient._id}
                 </TableCell>
                 <TableCell>
-                  {order.customer.name}
+                  {"Hanh"}
                 </TableCell>
                 <TableCell>
-                  {format(order.createdAt, 'dd/MM/yyyy')}
+                  {moment(patient.createdAt).format('DD/MM/YYYY-hh:mm:ss')}
                 </TableCell>
                 <TableCell>
                   <SeverityPill
-                    color={(order.status === 'delivered' && 'success')
-                    || (order.status === 'refunded' && 'error')
-                    || 'warning'}
+                    color={(patient.Outcome === 0 && 'success')
+                      || (patient.Outcome === 1 && 'error' || 'warning')}
                   >
-                    {order.status}
+                    {patient.Outcome === 0 ? "Khỏe mạnh" : "Mắc bệnh"}
                   </SeverityPill>
                 </TableCell>
               </TableRow>
@@ -154,9 +106,12 @@ export const LatestOrders = (props) => (
         endIcon={<ArrowRightIcon fontSize="small" />}
         size="small"
         variant="text"
+        onClick={() => {
+          router.push('/patients')
+        }}
       >
         View all
       </Button>
     </Box>
-  </Card>
-);
+  </Card >
+}

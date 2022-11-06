@@ -2,11 +2,15 @@ import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 
 export const Sales = (props) => {
   const theme = useTheme();
-
-  const data = {
+  const [last7daymac, setLast7daymac] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [last7daykhoe, setLast7daykhoee] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const data = useMemo(() => ({
     datasets: [
       {
         backgroundColor: '#3F51B5',
@@ -14,8 +18,8 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
+        data: last7daymac,
+        label: 'Bệnh nhân',
         maxBarThickness: 10
       },
       {
@@ -24,13 +28,21 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year',
+        data: last7daykhoe,
+        label: 'Người bình thường',
         maxBarThickness: 10
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
-  };
+    labels: [moment(Date.now()).add(-6, 'd').format('DD/MM'), moment(Date.now()).add(-5, 'd').format("DD/MM"), moment(Date.now()).add(-4, 'd').format("DD/MM"), moment(Date.now()).add(-3, 'd').format("DD/MM"), moment(Date.now()).add(-2, 'd').format("DD/MM"), moment(Date.now()).add(-1, 'd').format("DD/MM"), moment(Date.now()).format("DD/MM")]
+  }), [last7daymac, last7daykhoe])
+  useEffect(() => {
+    axios.get('http://localhost:8080/lastes')
+      .then(data => {
+        setLast7daymac(data.data.macArray)
+        setLast7daykhoee(data.data.khoeArray)
+      })
+      .catch(error => console.log(error))
+  }, [])
 
   const options = {
     animation: false,
@@ -89,10 +101,9 @@ export const Sales = (props) => {
             endIcon={<ArrowDropDownIcon fontSize="small" />}
             size="small"
           >
-            Last 7 days
           </Button>
         )}
-        title="Latest Sales"
+        title="7 ngày gần nhất"
       />
       <Divider />
       <CardContent>

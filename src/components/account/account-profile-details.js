@@ -9,6 +9,8 @@ import {
   Grid,
   TextField
 } from '@mui/material';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const states = [
   {
@@ -26,14 +28,28 @@ const states = [
 ];
 
 export const AccountProfileDetails = (props) => {
+  const router = useRouter()
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    Age: 0,
+    BMI: 0,
+    BloodPressure: 0,
+    DiabetesPedigreeFunction: 0,
+    Glucose: 0,
+    Insulin: 0,
+    Pregnancies: 0,
+    SkinThickness: 0,
+
   });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8080/patient', values)
+      .then((data) => {
+        router.push('/')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const handleChange = (event) => {
     setValues({
@@ -46,12 +62,13 @@ export const AccountProfileDetails = (props) => {
     <form
       autoComplete="off"
       noValidate
+      onSubmit={handleSubmit}
       {...props}
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
+
+          title="Thêm thông tin bệnh nhân"
         />
         <Divider />
         <CardContent>
@@ -66,12 +83,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
+                label="Age"
+                name="Age"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={values.Age}
                 variant="outlined"
               />
             </Grid>
@@ -82,11 +98,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Last name"
-                name="lastName"
+                label="BMI"
+                name="BMI"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={values.BMI}
                 variant="outlined"
               />
             </Grid>
@@ -97,26 +113,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
+                label="BloodPressure"
+                name="BloodPressure"
                 onChange={handleChange}
                 type="number"
-                value={values.phone}
+                value={values.BloodPressure}
                 variant="outlined"
               />
             </Grid>
@@ -127,11 +128,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Country"
-                name="country"
+                label="DiabetesPedigreeFunction"
+                name="DiabetesPedigreeFunction"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={values.DiabetesPedigreeFunction}
                 variant="outlined"
               />
             </Grid>
@@ -142,23 +143,61 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Select State"
-                name="state"
+                label="Glucose"
+                name="Glucose"
                 onChange={handleChange}
                 required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
+                value={values.Glucose}
                 variant="outlined"
               >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
+              </TextField>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Insulin"
+                name="Insulin"
+                onChange={handleChange}
+                required
+                value={values.Insulin}
+                variant="outlined"
+              >
+              </TextField>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Pregnancies"
+                name="Pregnancies"
+                onChange={handleChange}
+                required
+                value={values.Pregnancies}
+                variant="outlined"
+              >
+              </TextField>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="SkinThickness"
+                name="SkinThickness"
+                onChange={handleChange}
+                required
+                value={values.SkinThickness}
+                variant="outlined"
+              >
               </TextField>
             </Grid>
           </Grid>
@@ -174,8 +213,9 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
+            type='submit'
           >
-            Save details
+            Thêm
           </Button>
         </Box>
       </Card>
