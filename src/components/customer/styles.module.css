@@ -1,0 +1,32 @@
+.icon {
+  cursor: pointer;
+  color: rgb(49, 111, 245);
+  margin-right: 15px;
+}
+
+.dialogBox {
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.textField {
+  width: 500px;
+  margin-top: 15px !important;
+}
+
+.dialogContentBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialogListButton {
+  display: flex;
+  justify-content: right;
+  margin-top: 15px;
+}

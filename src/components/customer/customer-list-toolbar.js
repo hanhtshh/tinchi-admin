@@ -9,8 +9,6 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
 import { useRouter } from 'next/router'
-import { Upload as UploadIcon } from '../../icons/upload';
-import { Download as DownloadIcon } from '../../icons/download';
 
 export const CustomerListToolbar = (props) => {
   const router = useRouter();
@@ -28,7 +26,7 @@ export const CustomerListToolbar = (props) => {
         sx={{ m: 1 }}
         variant="h4"
       >
-        Danh sách bệnh nhân
+        Danh sách sinh viên
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
@@ -38,7 +36,7 @@ export const CustomerListToolbar = (props) => {
             router.push('/add-patient')
           }}
         >
-          Thêm bệnh nhân
+          Thêm sinh viên
         </Button>
       </Box>
     </Box>
@@ -60,7 +58,7 @@ export const CustomerListToolbar = (props) => {
                   </InputAdornment>
                 )
               }}
-              placeholder="Tên bệnh nhân"
+              placeholder="Tên sinh viên"
               variant="outlined"
             />
           </Box>

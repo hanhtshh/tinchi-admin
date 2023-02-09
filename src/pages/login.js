@@ -34,6 +34,7 @@ const Login = () => {
         const password = formik.getFieldProps("password").value;
         const response = await loginAccount(username, password);
         localStorage.setItem('token', response.data.data.token)
+        localStorage.setItem('userInfo', JSON.stringify(response.data.data.userInfo))
         Router.push('/')
       }
       catch (error) {

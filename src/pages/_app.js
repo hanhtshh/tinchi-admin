@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import Head from 'next/head';
 import { CacheProvider } from '@emotion/react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,6 +9,7 @@ import { AuthConsumer, AuthProvider } from '../contexts/auth-context';
 import { createEmotionCache } from '../utils/create-emotion-cache';
 import { registerChartJs } from '../utils/register-chart-js';
 import { theme } from '../theme';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 registerChartJs();
 
@@ -16,7 +17,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
+  const [queryClient] = useState(() => new QueryClient())
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -38,7 +39,12 @@ const App = (props) => {
               {
                 (auth) => auth.isLoading
                   ? <Fragment />
-                  : getLayout(<Component {...pageProps} />)
+                  :
+                  <QueryClientProvider client={queryClient}>
+                    <Hydrate state={pageProps.dehydratedState}>
+                      {getLayout(<Component {...pageProps} />)}
+                    </Hydrate>
+                  </QueryClientProvider>
               }
             </AuthConsumer>
           </AuthProvider>

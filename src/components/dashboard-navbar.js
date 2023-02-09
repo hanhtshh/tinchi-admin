@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
@@ -8,6 +8,8 @@ import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
 import { AccountPopover } from './account-popover';
+import { getInitials, stringToColor } from '../utils/get-initials';
+import { bgcolor } from '@mui/system';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -18,6 +20,7 @@ export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
+  const userInfo = useMemo(() => JSON.parse(localStorage.getItem("userInfo")), [localStorage])
 
   return (
     <>
@@ -79,11 +82,11 @@ export const DashboardNavbar = (props) => {
               cursor: 'pointer',
               height: 40,
               width: 40,
-              ml: 1
+              ml: 1,
+              bgcolor: stringToColor(userInfo?.name)
             }}
-            src="/static/images/avatars/avatar_1.png"
           >
-            <UserCircleIcon fontSize="small" />
+            {getInitials(userInfo?.name)}
           </Avatar>
         </Toolbar>
       </DashboardNavbarRoot>

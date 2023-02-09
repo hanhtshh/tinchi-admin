@@ -23,9 +23,9 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/patients',
+    href: '/students',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Patients'
+    title: 'Students'
   },
 
   {
