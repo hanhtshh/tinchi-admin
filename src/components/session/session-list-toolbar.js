@@ -9,8 +9,11 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
 import { useRouter } from 'next/router'
+import { useState } from 'react';
 
-export const CustomerListToolbar = (props) => {
+export const SessionListToolbar = (props) => {
+  const { keySearch, setKeySearch } = props
+  const [input, setInput] = useState(keySearch);
   const router = useRouter();
   return <Box {...props}>
     <Box
@@ -26,17 +29,17 @@ export const CustomerListToolbar = (props) => {
         sx={{ m: 1 }}
         variant="h4"
       >
-        Danh sách sinh viên
+        Danh sách phiên học
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
           color="primary"
           variant="contained"
           onClick={() => {
-            router.push('/add-student')
+            router.push('/add-teacher')
           }}
         >
-          Thêm sinh viên
+          Thêm phiên học
         </Button>
       </Box>
     </Box>
@@ -58,7 +61,16 @@ export const CustomerListToolbar = (props) => {
                   </InputAdornment>
                 )
               }}
-              placeholder="Tên sinh viên"
+              placeholder="Tìm kiếm theo ngày"
+              value={input}
+              onChange={event => {
+                setInput(event.target.value)
+              }}
+              onKeyDown={event => {
+                if (event.keyCode === 13) {
+                  setKeySearch(input)
+                }
+              }}
               variant="outlined"
             />
           </Box>

@@ -21,7 +21,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Students
+          Admin | Danh sách sinh viên
         </title>
       </Head>
       <Box

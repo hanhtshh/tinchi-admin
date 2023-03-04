@@ -10,11 +10,12 @@ import { Lock as LockIcon } from '../icons/lock';
 import { Selector as SelectorIcon } from '../icons/selector';
 import { ShoppingBag as ShoppingBagIcon } from '../icons/shopping-bag';
 import { User as UserIcon } from '../icons/user';
-import { UserAdd as UserAddIcon } from '../icons/user-add';
+import { UserAdd, UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
+import { Menu } from '../icons/menu';
 
 const items = [
   {
@@ -25,13 +26,23 @@ const items = [
   {
     href: '/students',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Students'
+    title: 'Danh sách sinh viên'
   },
 
   {
-    href: '/add-patient',
+    href: '/teachers',
     icon: (<UserIcon fontSize="small" />),
-    title: 'Add patient'
+    title: 'Danh sách giảng viên'
+  },
+  {
+    href: '/classes',
+    icon: (<Menu fontSize="small" />),
+    title: 'Danh sách lớp học'
+  },
+  {
+    href: '/sessions',
+    icon: (<Menu fontSize="small" />),
+    title: 'Danh sách phiên học'
   }
 ];
 
