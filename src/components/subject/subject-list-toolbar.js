@@ -11,7 +11,7 @@ import { Search as SearchIcon } from '../../icons/search';
 import { useRouter } from 'next/router'
 import { useState } from 'react';
 
-export const SessionListToolbar = (props) => {
+export const SubjectListToolbar = (props) => {
   const { keySearch, setKeySearch } = props
   const [input, setInput] = useState(keySearch);
   const router = useRouter();
@@ -29,17 +29,17 @@ export const SessionListToolbar = (props) => {
         sx={{ m: 1 }}
         variant="h4"
       >
-        Danh sách phiên học
+        Danh sách môn học
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
           color="primary"
           variant="contained"
           onClick={() => {
-            router.push('/add-session')
+            router.push('/add-subject')
           }}
         >
-          Thêm phiên học
+          Thêm môn học
         </Button>
       </Box>
     </Box>
@@ -61,7 +61,7 @@ export const SessionListToolbar = (props) => {
                   </InputAdornment>
                 )
               }}
-              placeholder="Tìm kiếm theo ngày"
+              placeholder="Tên lớp học"
               value={input}
               onChange={event => {
                 setInput(event.target.value)

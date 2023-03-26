@@ -14,6 +14,30 @@ const getListSessionService = async (pageSize, current) => {
     return results.data.data
 }
 
+const addSessionService = async (sessionInfo) => {
+    const results = await axios.post(`${config.service_host}/sessions/create`, sessionInfo, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+    })
+    return results?.data?.data
+}
+
+
+const getDetailSessionService = async (id) => {
+    const results = await axios.get(`${config.service_host}/session/get-session-info`, {
+        params: {
+            id
+        },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    return results?.data?.data
+}
+
 export {
-    getListSessionService
+    getListSessionService,
+    addSessionService,
+    getDetailSessionService
 }

@@ -21,6 +21,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
+import Link from 'next/link';
 
 export const SessionListResults = (props) => {
   const { listSession, totalRows, isLoading } = props;
@@ -92,7 +93,7 @@ export const SessionListResults = (props) => {
                     </TableCell>
                     <TableCell>
                       <DeleteOutline className={classes.icon} />
-                      {/* <Edit className={classes.icon} onClick={() => setOpenDialog(true)} /> */}
+                      <Link href={`/session/${session?.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
                   </TableRow>
                 ))}

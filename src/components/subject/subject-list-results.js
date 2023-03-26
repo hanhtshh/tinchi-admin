@@ -21,9 +21,10 @@ import axios from 'axios';
 import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
+import Link from 'next/link';
 
-export const ClassListResults = (props) => {
-  const { listClass, totalRows, isLoading } = props;
+export const SubjectListResults = (props) => {
+  const { listSubject, totalRows, isLoading } = props;
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
@@ -55,18 +56,6 @@ export const ClassListResults = (props) => {
                     Tên môn học
                   </TableCell>
                   <TableCell>
-                    NMH
-                  </TableCell>
-                  <TableCell>
-                    Trạng thái
-                  </TableCell>
-                  <TableCell>
-                    Số lượng sinh viên tối đa
-                  </TableCell>
-                  <TableCell>
-                    Số lượng sinh viên hiện tại
-                  </TableCell>
-                  <TableCell>
                     Số tín chỉ
                   </TableCell>
                   <TableCell>
@@ -81,35 +70,26 @@ export const ClassListResults = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listClass?.map((class_detail) => (
+                {listSubject?.map((subject_detail) => (
                   <TableRow
                     hover
-                    key={class_detail.id}
-                    selected={listClass.indexOf(class_detail.id) !== -1}
+                    key={subject_detail.id}
+                    selected={listSubject.indexOf(subject_detail.id) !== -1}
                   >
-                    <TableCell>{class_detail?.subject?.name}</TableCell>
-                    <TableCell>{class_detail?.group}</TableCell>
+                    <TableCell>{subject_detail?.name}</TableCell>
+
                     <TableCell>
-                      {class_detail?.status}
+                      {subject_detail?.tinchi_number}
                     </TableCell>
                     <TableCell>
-                      {class_detail?.max_student}
+                      {moment(subject_detail?.created_at).format('DD/MM/yyyy')}
                     </TableCell>
                     <TableCell>
-                      {class_detail?.total_student}
-                    </TableCell>
-                    <TableCell>
-                      {class_detail?.subject?.tinchi_number}
-                    </TableCell>
-                    <TableCell>
-                      {moment(class_detail?.created_at).format('DD/MM/yyyy')}
-                    </TableCell>
-                    <TableCell>
-                      {moment(class_detail?.updated_at).format('DD/MM/yyyy')}
+                      {moment(subject_detail?.updated_at).format('DD/MM/yyyy')}
                     </TableCell>
                     <TableCell>
                       <DeleteOutline className={classes.icon} />
-                      {/* <Edit className={classes.icon} onClick={() => setOpenDialog(true)} /> */}
+                      <Link href={`/subject/${subject_detail.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -129,6 +109,6 @@ export const ClassListResults = (props) => {
   );
 };
 
-ClassListResults.propTypes = {
-  listClass: PropTypes.array.isRequired
+SubjectListResults.propTypes = {
+  listSubject: PropTypes.array.isRequired
 };

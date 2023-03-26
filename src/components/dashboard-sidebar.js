@@ -40,6 +40,11 @@ const items = [
     title: 'Danh sách lớp học'
   },
   {
+    href: '/subjects',
+    icon: (<Menu fontSize="small" />),
+    title: 'Danh sách môn học'
+  },
+  {
     href: '/sessions',
     icon: (<Menu fontSize="small" />),
     title: 'Danh sách phiên học'

@@ -22,11 +22,11 @@ import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
 import SimpleDialog from './add-students-dialog';
+import Link from 'next/link';
 
 export const CustomerListResults = (props) => {
   const { listStudent, isLoading } = props;
   console.log(listStudent)
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
@@ -103,7 +103,7 @@ export const CustomerListResults = (props) => {
                         </Avatar>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer?.name}</TableCell>
+                    <TableCell className={classes.link}><Link href={`/student/${customer?.id}`}>{customer?.name}</Link></TableCell>
                     <TableCell>
                       {customer?.email}
                     </TableCell>
