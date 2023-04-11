@@ -9,9 +9,15 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react';
 
 export const CustomerListToolbar = (props) => {
+  const [keySearch, setKeySearch] = useState('');
   const router = useRouter();
+  const { name = '' } = router.query;
+  useEffect(() => {
+    setKeySearch(name);
+  }, [name])
   return <Box {...props}>
     <Box
       sx={{
@@ -60,6 +66,17 @@ export const CustomerListToolbar = (props) => {
               }}
               placeholder="Tên sinh viên"
               variant="outlined"
+              value={keySearch}
+              onChange={(event) => setKeySearch(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.keyCode === 13) {
+                  router.push({
+                    query: keySearch ? {
+                      name: keySearch
+                    } : {}
+                  })
+                }
+              }}
             />
           </Box>
         </CardContent>

@@ -14,23 +14,23 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
 } from '@mui/material';
-import { getInitials, stringToColor } from '../../utils/get-initials';
-import axios from 'axios';
 import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
+import { useRouter } from 'next/router';
 
 export const ClassListResults = (props) => {
-  const { listClass, totalRows, isLoading } = props;
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
+  const { listClass, totalRows, isLoading, pageSize, current } = props;
+  const router = useRouter();
 
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    router.push({
+      query: {
+        current: newPage + 1
+      }
+    })
   };
 
   const loadingComponent = useMemo(() => <>
@@ -51,6 +51,9 @@ export const ClassListResults = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>
+                    ID
+                  </TableCell>
                   <TableCell>
                     Tên môn học
                   </TableCell>
@@ -87,6 +90,7 @@ export const ClassListResults = (props) => {
                     key={class_detail.id}
                     selected={listClass.indexOf(class_detail.id) !== -1}
                   >
+                    <TableCell>{class_detail?.subject?.id}</TableCell>
                     <TableCell>{class_detail?.subject?.name}</TableCell>
                     <TableCell>{class_detail?.group}</TableCell>
                     <TableCell>
@@ -122,8 +126,8 @@ export const ClassListResults = (props) => {
           component="div"
           count={totalRows}
           onPageChange={handlePageChange}
-          page={page}
-          rowsPerPage={limit}
+          page={current - 1}
+          rowsPerPage={pageSize}
         />
       </Card>
   );

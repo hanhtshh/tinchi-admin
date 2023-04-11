@@ -16,35 +16,25 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import ClassInfo from '../class/class-info';
-import SimpleDialog from './add-students-dialog';
 
-export const StudentDetailsContainer = (props) => {
+export const ClassDetailsContainer = (props) => {
     const router = useRouter()
     const formik = useFormik({
         initialValues: {
-            email: 'example@gmail.com',
-            name: 'Nguyễn Văn Hạnh',
-            phone_number: '',
-            password: 'Password123'
+            subject_id: 0,
+            group: 0,
+            max_student: 0
         },
         validationSchema: Yup.object({
-            email: Yup
-                .string()
-                .email('Địa chỉ email không hợp lệ')
-                .max(255)
-                .required('Email không được để trống'),
-            name: Yup
-                .string()
-                .max(255)
-                .required('Họ & tên không được để trống'),
-            phone_number: Yup
-                .string()
-                .max(255)
-                .required('Số điện thoại không được để trống'),
-            password: Yup
-                .string()
-                .max(255)
-                .required('Mật khẩu không được để trống')
+            subject_id: Yup
+                .number()
+                .required('ID môn học không được để trống'),
+            group: Yup
+                .number()
+                .required('Nhóm môn học không được để trống'),
+            max_student: Yup
+                .number()
+                .required('Số lượng học sinh tối đa không được để trống'),
         }),
         onSubmit: (event) => {
             try {
@@ -87,11 +77,11 @@ export const StudentDetailsContainer = (props) => {
             onSubmit={handleSubmit}
             {...props}
         >
-            <SimpleDialog open={true} />
+
             <Card>
                 <CardHeader
 
-                    title="Thông tin sinh viên"
+                    title="Thông tin lớp học"
                 />
                 <Divider />
                 <CardContent>
@@ -105,15 +95,15 @@ export const StudentDetailsContainer = (props) => {
                             xs={12}
                         >
                             <TextField
-                                label="Họ & Tên"
+                                label="ID môn học"
                                 className={classes.textField}
-                                error={Boolean(formik.touched.name && formik.errors.name)}
-                                helperText={formik.touched.name && formik.errors.name}
+                                error={Boolean(formik.touched.subject_id && formik.errors.subject_id)}
+                                helperText={formik.touched.subject_id && formik.errors.subject_id}
                                 margin="normal"
-                                name="name"
+                                name="subject_id"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
-                                value={formik.values.name}
+                                value={formik.values.subject_id}
                                 variant="outlined"
                             />
                         </Grid>
@@ -123,15 +113,15 @@ export const StudentDetailsContainer = (props) => {
                             xs={12}
                         >
                             <TextField
-                                label="Email"
+                                label="Nhóm môn học"
                                 className={classes.textField}
-                                error={Boolean(formik.touched.email && formik.errors.email)}
-                                helperText={formik.touched.email && formik.errors.email}
+                                error={Boolean(formik.touched.group && formik.errors.group)}
+                                helperText={formik.touched.group && formik.errors.group}
                                 margin="normal"
-                                name="email"
+                                name="group"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
-                                value={formik.values.email}
+                                value={formik.values.group}
                                 variant="outlined"
                             />
                         </Grid>
@@ -141,36 +131,16 @@ export const StudentDetailsContainer = (props) => {
                             xs={12}
                         >
                             <TextField
-                                label="Mật khẩu"
+                                label="Số lượng học sinh tối đa"
                                 className={classes.textField}
-                                error={Boolean(formik.touched.password && formik.errors.password)}
+                                error={Boolean(formik.touched.max_student && formik.errors.max_student)}
 
-                                helperText={formik.touched.password && formik.errors.password}
+                                helperText={formik.touched.max_student && formik.errors.max_student}
                                 margin="normal"
-                                name="password"
+                                name="max_student"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
-                                type="password"
-                                value={formik.values.password}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <TextField
-                                label="Số điện thoại"
-                                className={classes.textField}
-                                error={Boolean(formik.touched.phone_number && formik.errors.phone_number)}
-                                helperText={formik.touched.phone_number && formik.errors.phone_number}
-                                margin="normal"
-                                name="phone_number"
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                type="phone_number"
-                                value={formik.values.phone_number}
+                                value={formik.values.max_student}
                                 variant="outlined"
                             />
                         </Grid>
@@ -180,7 +150,7 @@ export const StudentDetailsContainer = (props) => {
 
                 <CardHeader
 
-                    title="Danh sách lớp học"
+                    title="Danh sách phiên học"
                 />
                 <CardContent>
                     <Grid

@@ -1,11 +1,12 @@
 import axios from "axios"
 import config from "../config"
 
-const getListSubjectService = async (pageSize, current) => {
+const getListSubjectService = async (pageSize, current, name) => {
     const results = await axios.get(`${config.service_host}/subject/get-all-subject`, {
         params: {
             pageSize,
-            current
+            current,
+            name
         },
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`

@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import { Box, Container, Skeleton } from '@mui/material';
-import { CustomerListResults } from '../components/customer/customer-list-results';
-import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -11,26 +9,23 @@ import { TeacherListResults } from '../components/teacher/teacher-list-results';
 
 const Page = () => {
     const router = useRouter();
-    const { pageSize, current } = router.query;
-    const { keySearch } = router.query
+    const { pageSize = 10, current = 1, name = '' } = router.query;
 
     const { data: listTeacher, isLoading } = useQuery(
-        ['getListTeacher', pageSize, current],
-        () => getListTeacher(pageSize, current, keySearch),
+        ['getListTeacher', pageSize, current, name],
+        () => getListTeacher(pageSize, current, name),
         { refetchOnWindowFocus: false }
     );
 
 
     const setKeySearch = (key) => {
         router.push({
-            query: {
-                keySearch: key
-            }
+            query: key ? {
+                name: key
+            } : {}
         })
     };
 
-
-    console.log(keySearch)
     return (
         <>
             <Head>
@@ -46,9 +41,9 @@ const Page = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <TeacherListToolbar keySearch={keySearch} setKeySearch={setKeySearch} />
+                    <TeacherListToolbar keySearch={name} setKeySearch={setKeySearch} />
                     <Box sx={{ mt: 3 }}>
-                        <TeacherListResults listTeacher={listTeacher} isLoading={isLoading} />
+                        {listTeacher && <TeacherListResults listTeacher={listTeacher} isLoading={isLoading} pageSize={pageSize} current={current} />}
                     </Box>
                 </Container>
             </Box>
@@ -62,8 +57,8 @@ Page.getLayout = (page) => (
     </DashboardLayout>
 );
 
-const getListTeacher = async (pageSize, current, keySearch) => {
-    return getListTeacherService(pageSize, current, keySearch);
+const getListTeacher = async (pageSize, current, name) => {
+    return getListTeacherService(pageSize, current, name);
 }
 
 // export const getServerSideProps = async ({ query }) => {

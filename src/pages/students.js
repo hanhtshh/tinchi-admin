@@ -9,11 +9,11 @@ import { getListStudentService } from '../services/students';
 
 const Page = () => {
   const router = useRouter();
-  const { pageSize, current } = router.query;
+  const { pageSize = 10, current = 1, name = '' } = router.query;
 
   const { data: listStudent, isLoading } = useQuery(
-    ['getListStudent', pageSize, current],
-    () => getListStudent(pageSize, current),
+    ['getListStudent', pageSize, current, name],
+    () => getListStudent(pageSize, current, name),
     { refetchOnWindowFocus: false }
   );
   console.log(listStudent)
@@ -34,7 +34,9 @@ const Page = () => {
         <Container maxWidth={false}>
           <CustomerListToolbar />
           <Box sx={{ mt: 3 }}>
-            <CustomerListResults listStudent={listStudent} isLoading={isLoading} />
+            {
+              listStudent && <CustomerListResults listStudent={listStudent.listStudent} isLoading={isLoading} pageSize={pageSize} current={current} />
+            }
           </Box>
         </Container>
       </Box>
@@ -48,8 +50,8 @@ Page.getLayout = (page) => (
   </DashboardLayout>
 );
 
-const getListStudent = async (pageSize, current) => {
-  return getListStudentService(pageSize, current);
+const getListStudent = async (pageSize, current, name) => {
+  return getListStudentService(pageSize, current, name);
 }
 
 // export const getServerSideProps = async ({ query }) => {

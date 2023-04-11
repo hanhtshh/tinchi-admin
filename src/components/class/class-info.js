@@ -2,7 +2,7 @@ import classes from './styles.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 const ClassInfo = (props) => {
     return <div className={classes.classInfoBox}>
-        <div className={classes.deleteIconBox}><CloseIcon className={classes.deleteIcon} /></div>
+        {/* <div className={classes.deleteIconBox}><CloseIcon className={classes.deleteIcon} /></div> */}
         <div className={classes.classInfo}>
             <div className={classes.classKey}>Tên lớp học:</div>
             <div className={classes.classValue}>Các hệ thống dựa trên tri thức </div>

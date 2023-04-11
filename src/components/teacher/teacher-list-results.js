@@ -21,16 +21,21 @@ import axios from 'axios';
 import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export const TeacherListResults = (props) => {
-  const { listTeacher, isLoading } = props;
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
+  const { listTeacher, isLoading, pageSize, current } = props;
+  const { teachers, totalRows } = listTeacher
+  const router = useRouter();
 
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    router.push({
+      query: {
+        current: newPage + 1
+      }
+    })
   };
 
   const loadingComponent = useMemo(() => <>
@@ -52,6 +57,9 @@ export const TeacherListResults = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox">
+                  </TableCell>
+                  <TableCell>
+                    ID
                   </TableCell>
                   <TableCell>
                     Họ & Tên
@@ -77,11 +85,11 @@ export const TeacherListResults = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listTeacher?.map((customer) => (
+                {teachers?.map((customer) => (
                   <TableRow
                     hover
                     key={customer.id}
-                    selected={listTeacher.indexOf(customer.id) !== -1}
+                    selected={teachers.indexOf(customer.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -98,6 +106,7 @@ export const TeacherListResults = (props) => {
                         </Avatar>
                       </Box>
                     </TableCell>
+                    <TableCell>{customer?.id}</TableCell>
                     <TableCell>{customer?.name}</TableCell>
                     <TableCell>
                       {customer?.email}
@@ -116,7 +125,9 @@ export const TeacherListResults = (props) => {
                     </TableCell>
                     <TableCell>
                       <DeleteOutline className={classes.icon} />
-                      {/* <Edit className={classes.icon} onClick={() => setOpenDialog(true)} /> */}
+                      <Link href={`/teacher/${customer.id}`}>
+                        <Edit className={classes.icon} />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -127,10 +138,10 @@ export const TeacherListResults = (props) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={total}
+          count={totalRows}
           onPageChange={handlePageChange}
-          page={page}
-          rowsPerPage={limit}
+          page={current - 1}
+          rowsPerPage={pageSize}
         />
       </Card>
   );

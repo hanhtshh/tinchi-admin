@@ -22,16 +22,18 @@ import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export const SubjectListResults = (props) => {
-  const { listSubject, totalRows, isLoading } = props;
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
-
+  const { listSubject, totalRows, isLoading, pageSize, current } = props;
+  const router = useRouter();
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    router.push({
+      query: {
+        current: newPage + 1
+      }
+    })
   };
 
   const loadingComponent = useMemo(() => <>
@@ -52,6 +54,9 @@ export const SubjectListResults = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>
+                    ID
+                  </TableCell>
                   <TableCell>
                     Tên môn học
                   </TableCell>
@@ -76,6 +81,7 @@ export const SubjectListResults = (props) => {
                     key={subject_detail.id}
                     selected={listSubject.indexOf(subject_detail.id) !== -1}
                   >
+                    <TableCell>{subject_detail?.id}</TableCell>
                     <TableCell>{subject_detail?.name}</TableCell>
 
                     <TableCell>
@@ -102,8 +108,8 @@ export const SubjectListResults = (props) => {
           component="div"
           count={totalRows}
           onPageChange={handlePageChange}
-          page={page}
-          rowsPerPage={limit}
+          page={current - 1}
+          rowsPerPage={pageSize}
         />
       </Card>
   );

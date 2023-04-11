@@ -23,18 +23,21 @@ import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
 import SimpleDialog from './add-students-dialog';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export const CustomerListResults = (props) => {
-  const { listStudent, isLoading } = props;
-  console.log(listStudent)
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
+  const { listStudent, isLoading, pageSize, current } = props;
+  const { students, totalRows } = listStudent
+  const router = useRouter();
   const [openDialog, setOpenDialog] = useState(false)
 
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    router.push({
+      query: {
+        current: newPage + 1
+      }
+    });
   };
 
   const loadingComponent = useMemo(() => <>
@@ -57,6 +60,9 @@ export const CustomerListResults = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox">
+                  </TableCell>
+                  <TableCell>
+                    ID
                   </TableCell>
                   <TableCell>
                     Họ & Tên
@@ -82,11 +88,11 @@ export const CustomerListResults = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listStudent?.map((customer) => (
+                {students?.map((customer) => (
                   <TableRow
                     hover
                     key={customer.id}
-                    selected={listStudent.indexOf(customer.id) !== -1}
+                    selected={students.indexOf(customer.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -103,7 +109,8 @@ export const CustomerListResults = (props) => {
                         </Avatar>
                       </Box>
                     </TableCell>
-                    <TableCell className={classes.link}><Link href={`/student/${customer?.id}`}>{customer?.name}</Link></TableCell>
+                    <TableCell className={classes.link}>{customer?.id}</TableCell>
+                    <TableCell className={classes.link}>{customer?.name}</TableCell>
                     <TableCell>
                       {customer?.email}
                     </TableCell>
@@ -121,7 +128,8 @@ export const CustomerListResults = (props) => {
                     </TableCell>
                     <TableCell>
                       <DeleteOutline className={classes.icon} />
-                      <Edit className={classes.icon} onClick={() => setOpenDialog(true)} />
+                      <Link href={`/student/${customer?.id}`}><Edit className={classes.icon} /></Link>
+
                     </TableCell>
                   </TableRow>
                 ))}
@@ -132,10 +140,10 @@ export const CustomerListResults = (props) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={total}
+          count={totalRows}
           onPageChange={handlePageChange}
-          page={page}
-          rowsPerPage={limit}
+          page={current - 1}
+          rowsPerPage={pageSize}
         />
       </Card>
   );

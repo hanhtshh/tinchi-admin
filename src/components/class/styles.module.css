@@ -53,3 +53,14 @@
   cursor: pointer;
   
 }
+
+.classInfoBox{
+  flex: 1;
+}
+.addClassButton {
+  height: 100%;
+  min-height: 70px;
+  border-radius: 8px;
+  border: 1px solid #e6e8f0;
+  width: 100%;
+}

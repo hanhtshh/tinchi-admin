@@ -36,7 +36,7 @@ export const ClassListToolbar = (props) => {
           color="primary"
           variant="contained"
           onClick={() => {
-            router.push('/add-teacher')
+            router.push('/add-class')
           }}
         >
           Thêm lớp học

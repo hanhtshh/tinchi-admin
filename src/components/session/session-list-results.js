@@ -53,6 +53,9 @@ export const SessionListResults = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell>
+                    ID
+                  </TableCell>
+                  <TableCell>
                     Ngày học
                   </TableCell>
                   <TableCell>
@@ -78,6 +81,7 @@ export const SessionListResults = (props) => {
                     hover
                     key={session.id}
                   >
+                    <TableCell>{session?.id}</TableCell>
                     <TableCell>{moment(session?.date).format('DD/MM/yyyy')}</TableCell>
                     <TableCell>
                       {session?.start_time}

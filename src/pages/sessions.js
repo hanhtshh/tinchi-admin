@@ -3,8 +3,6 @@ import { Box, Container, Skeleton } from '@mui/material';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { ClassListToolbar } from '../components/class/class-list-toolbar';
-import { ClassListResults } from '../components/class/class-list-results';
 import { getListSessionService } from '../services/sessions';
 import { SessionListToolbar } from '../components/session/session-list-toolbar';
 import { SessionListResults } from '../components/session/session-list-results';

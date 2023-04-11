@@ -9,26 +9,23 @@ import { ClassListResults } from '../components/class/class-list-results';
 
 const Page = () => {
     const router = useRouter();
-    const { pageSize, current } = router.query;
-    const { keySearch } = router.query
+    const { pageSize = 10, current = 1, name = '' } = router.query;
 
     const { data: listClass, isLoading } = useQuery(
-        ['getListClass', pageSize, current],
-        () => getListClass(pageSize, current, keySearch),
+        ['getListClass', pageSize, current, name],
+        () => getListClass(pageSize, current, name),
         { refetchOnWindowFocus: false }
     );
 
 
     const setKeySearch = (key) => {
         router.push({
-            query: {
-                keySearch: key
-            }
+            query: key ? {
+                name: key
+            } : {}
         })
     };
 
-
-    console.log(keySearch)
     return (
         <>
             <Head>
@@ -44,9 +41,9 @@ const Page = () => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <ClassListToolbar keySearch={keySearch} setKeySearch={setKeySearch} />
+                    <ClassListToolbar keySearch={name} setKeySearch={setKeySearch} />
                     <Box sx={{ mt: 3 }}>
-                        <ClassListResults listClass={listClass?.classes} totalRows={listClass?.totalRows} isLoading={isLoading} />
+                        <ClassListResults listClass={listClass?.classes} totalRows={listClass?.totalRows} pageSize={pageSize} current={current} isLoading={isLoading} />
                     </Box>
                 </Container>
             </Box>
@@ -60,8 +57,8 @@ Page.getLayout = (page) => (
     </DashboardLayout>
 );
 
-const getListClass = async (pageSize, current, keySearch) => {
-    return getListClassService(pageSize, current, keySearch);
+const getListClass = async (pageSize, current, name) => {
+    return getListClassService(pageSize, current, name);
 }
 
 // export const getServerSideProps = async ({ query }) => {
