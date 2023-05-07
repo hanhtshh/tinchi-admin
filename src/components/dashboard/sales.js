@@ -19,7 +19,7 @@ export const Sales = (props) => {
         borderRadius: 4,
         categoryPercentage: 0.5,
         data: last7daymac,
-        label: 'Bệnh nhân',
+        label: 'Đã đăng kí',
         maxBarThickness: 10
       },
       {
@@ -29,7 +29,7 @@ export const Sales = (props) => {
         borderRadius: 4,
         categoryPercentage: 0.5,
         data: last7daykhoe,
-        label: 'Người bình thường',
+        label: 'Còn trống',
         maxBarThickness: 10
       }
     ],

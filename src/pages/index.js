@@ -14,7 +14,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Dashboard | Diabetes
+        Dashboard
       </title>
     </Head>
     <Box

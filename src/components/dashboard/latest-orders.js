@@ -24,18 +24,18 @@ import moment from 'moment';
 
 export const LatestOrders = (props) => {
   const [latestPatient, setLastestPatient] = useState([]);
-  useEffect(() => {
-    axios.get(`http://localhost:8080/patients?page=${0}`)
-      .then((data) => {
-        setLastestPatient(data.data.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+  // useEffect(() => {
+  //   axios.get(`http://localhost:8080/patients?page=${0}`)
+  //     .then((data) => {
+  //       setLastestPatient(data.data.data)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }, [])
   const router = useRouter();
   return <Card {...props}>
-    <CardHeader title="Bệnh nhân gần nhất" />
+    <CardHeader title="Sinh viên đăng kí gần nhất" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
         <Table>
@@ -85,7 +85,7 @@ export const LatestOrders = (props) => {
                     color={(patient.Outcome === 0 && 'success')
                       || (patient.Outcome === 1 && 'error' || 'warning')}
                   >
-                    {patient.Outcome === 0 ? "Khỏe mạnh" : "Mắc bệnh"}
+                    {patient.Outcome === 0 ? "Đã đăng kí" : "Còn trống"}
                   </SeverityPill>
                 </TableCell>
               </TableRow>

@@ -25,7 +25,7 @@ export const TrafficByDevice = (props) => {
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Khỏe mạnh', 'Mắc bệnh']
+    labels: ['Đã đăng kí', 'Còn trống']
   }), [tile])
 
   const options = {
@@ -52,13 +52,13 @@ export const TrafficByDevice = (props) => {
 
   const devices = useMemo(() => [
     {
-      title: 'Khỏe mạnh',
+      title: 'Đã đăng kí',
       value: Math.round(100 - tile),
       icon: LaptopMacIcon,
       color: '#3F51B5'
     },
     {
-      title: 'Mắc bệnh',
+      title: 'Còn trống',
       value: Math.round(tile),
       icon: TabletIcon,
       color: '#E53935'
@@ -67,7 +67,7 @@ export const TrafficByDevice = (props) => {
 
   return (
     <Card {...props}>
-      <CardHeader title="Tỉ lệ mắc bệnh tiểu đường" />
+      <CardHeader title="Tỉ lệ sinh viên đăng kí" />
       <Divider />
       <CardContent>
         <Box

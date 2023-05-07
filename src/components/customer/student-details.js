@@ -19,13 +19,16 @@ import ClassInfo from '../class/class-info';
 import SimpleDialog from './add-students-dialog';
 
 export const StudentDetailsContainer = (props) => {
-    const router = useRouter()
+    const router = useRouter();
+    const { userInfo } = props;
+    const [listIdChecked, setListIdChecked] = useState([]);
+    const [open, setOpen] = useState(false);
     const formik = useFormik({
         initialValues: {
-            email: 'example@gmail.com',
-            name: 'Nguyễn Văn Hạnh',
-            phone_number: '',
-            password: 'Password123'
+            email: userInfo?.email || 'example@gmail.com',
+            name: userInfo?.name || 'Nguyễn Văn Hạnh',
+            phone_number: userInfo?.phone_number || '',
+            password: userInfo?.password || '1223123'
         },
         validationSchema: Yup.object({
             email: Yup
@@ -87,7 +90,7 @@ export const StudentDetailsContainer = (props) => {
             onSubmit={handleSubmit}
             {...props}
         >
-            <SimpleDialog open={true} />
+            <SimpleDialog listIdChecked={listIdChecked} setListIdChecked={setListIdChecked} open={open} setOpen={setOpen} />
             <Card>
                 <CardHeader
 
@@ -192,31 +195,20 @@ export const StudentDetailsContainer = (props) => {
                             md={6}
                             xs={12}
                         >
-                            <button className={classes.addClassButton}><AddIcon fontSize={'large'} className={classes.addClassIcon} /></button>
+                            <button type='button' onClick={() => setOpen(true)} className={classes.addClassButton}><AddIcon fontSize={'large'} className={classes.addClassIcon} /></button>
                         </Grid>
 
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <div className={classes.classInfoBox}><ClassInfo /></div>
-                        </Grid>
+                        {
+                            listIdChecked?.map((classInfo) => <Grid
+                                item
+                                md={6}
+                                xs={12}
+                            >
+                                <div className={classes.classInfoBox}><ClassInfo classInfo={classInfo} /></div>
+                            </Grid>)
+                        }
 
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <div className={classes.classInfoBox}><ClassInfo /></div>
-                        </Grid>
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <div className={classes.classInfoBox}><ClassInfo /></div>
-                        </Grid>
+
 
                     </Grid>
                 </CardContent>
@@ -228,6 +220,7 @@ export const StudentDetailsContainer = (props) => {
                         justifyContent: 'flex-end',
                         p: 2
                     }}
+
                 >
                     <Button
                         color="primary"
