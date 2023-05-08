@@ -17,11 +17,11 @@ import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import CloseIcon from '@mui/icons-material/Close';
 import ClassInfo from '../class/class-info';
-import SimpleDialog from './add-students-dialog';
+import SimpleDialog from './add-teacher-dialog';
 import { addClassService, checkScheduleService } from '../../services/classes';
 import { createUserInfoService, updateUserInfoService } from '../../services/students';
 
-export const StudentDetailsContainer = (props) => {
+export const TeacherDetailsContainer = (props) => {
     const router = useRouter();
     const { userInfo } = props;
     const [listIdChecked, setListIdChecked] = useState(userInfo?.listClass || []);
@@ -71,7 +71,7 @@ export const StudentDetailsContainer = (props) => {
                         name,
                         phone_number,
                         password,
-                        role: 0,
+                        role: 1,
                         id: userInfo?.id
                     }), addClassService(listIdChecked.map(classInfo => classInfo.id), userInfo?.id)])
                 }
@@ -81,7 +81,7 @@ export const StudentDetailsContainer = (props) => {
                         name,
                         phone_number,
                         password,
-                        role: 0
+                        role: 1
                     }, listIdChecked.map(classInfo => classInfo.id))
                 }
                 router.push('/students')

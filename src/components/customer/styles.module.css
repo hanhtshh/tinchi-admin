@@ -37,7 +37,7 @@
 
 .addClassButton {
   height: 100%;
-  min-height: 70px;
+  min-height: 130px;
   border-radius: 8px;
   border: 1px solid #e6e8f0;
   width: 500px;
@@ -47,7 +47,19 @@
   border: 1px solid #e6e8f0;
   padding: 10px;
   border-radius: 8px;
+  position: relative;
   width: 500px;
+}
+.deleteIcon {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 5px;
+  transform: scale(0.8);
+  border: 1px solid gray;
+  border-radius: 100%;
+  background: white;
+  cursor: pointer;
 }
 
 .listClassChoose {
@@ -59,6 +71,5 @@
   margin-top: 15px;
 }
 
-.classChooseBox{
-
+.classChooseBox {
 }

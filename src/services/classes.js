@@ -26,9 +26,10 @@ const checkScheduleService = async (listClassId) => {
     return results.data.data
 }
 
-const addClassService = async (listClassId) => {
-    const results = await axios.post(`${config.service_host}/class/add-class`, {
-        listClassId
+const addClassService = async (listClassId, userId) => {
+    const results = await axios.post(`${config.service_host}/class/add-class-admin`, {
+        listClassId,
+        userId
     }, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`

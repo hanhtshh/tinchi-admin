@@ -23,7 +23,32 @@ const getUserDetailService = async (user_id) => {
     return results.data.data
 }
 
+const updateUserInfoService = async (userInfo) => {
+    const results = await axios.put(`${config.service_host}/users/update`, {
+        ...userInfo
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    return results.data.data
+}
+
+const createUserInfoService = async (userInfo, listClassId) => {
+    const results = await axios.post(`${config.service_host}/users/create`, {
+        ...userInfo,
+        listClassId
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    return results.data.data
+}
+
 export {
     getListStudentService,
-    getUserDetailService
+    getUserDetailService,
+    updateUserInfoService,
+    createUserInfoService
 }
