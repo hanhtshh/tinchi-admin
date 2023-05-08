@@ -13,7 +13,7 @@ const Page = () => {
     const { keySearch } = router.query
 
     const { data: listSession, isLoading } = useQuery(
-        ['getListSession', pageSize, current],
+        ['getListSession', pageSize, current, keySearch],
         () => getListSession(pageSize, current, keySearch),
         { refetchOnWindowFocus: false }
     );
@@ -61,7 +61,13 @@ Page.getLayout = (page) => (
 );
 
 const getListSession = async (pageSize, current, keySearch) => {
-    return getListSessionService(pageSize, current, keySearch);
+    if (keySearch) {
+        const dateParts = keySearch.split("/");
+        // month is 0-based, that's why we need dataParts[1] - 1
+        const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        return getListSessionService(pageSize, current, dateObject);
+    }
+    return getListSessionService(pageSize, current);
 }
 
 // export const getServerSideProps = async ({ query }) => {

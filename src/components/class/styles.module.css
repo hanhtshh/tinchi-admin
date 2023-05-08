@@ -51,16 +51,39 @@
 
 .deleteIcon {
   cursor: pointer;
-  
 }
 
-.classInfoBox{
+.classInfoBoxB {
   flex: 1;
+  border: 1px solid #e6e8f0;
+  border-radius: 7px;
+  padding: 10px;
+  margin-top: 10px;
 }
+
+.classInfoBox {
+  flex: 1;
+  border: 1px solid #e6e8f0;
+  border-radius: 7px;
+  padding: 10px;
+  position: relative;
+}
+
 .addClassButton {
   height: 100%;
   min-height: 70px;
   border-radius: 8px;
   border: 1px solid #e6e8f0;
   width: 100%;
+}
+.deleteIcon {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 5px;
+  transform: scale(0.6);
+  border: 1px solid gray;
+  border-radius: 100%;
+  background: white;
+  cursor: pointer;
 }

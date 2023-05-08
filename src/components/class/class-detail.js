@@ -15,15 +15,21 @@ import {
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
-import ClassInfo from '../class/class-info';
+import SessionInfo from '../session/session-info';
+import SimpleDialog from './add-session-dialog';
+import { Close } from '@mui/icons-material';
+import { createClassService, updateClassService } from '../../services/classes';
 
 export const ClassDetailsContainer = (props) => {
+    const [listIdChecked, setListIdChecked] = useState([])
+    const { classInfo } = props;
+    const [open, setOpen] = useState(false);
     const router = useRouter()
     const formik = useFormik({
         initialValues: {
-            subject_id: 0,
-            group: 0,
-            max_student: 0
+            subject_id: classInfo.subject_id || 0,
+            group: classInfo.group || 0,
+            max_student: classInfo.max_student || 0
         },
         validationSchema: Yup.object({
             subject_id: Yup
@@ -36,32 +42,46 @@ export const ClassDetailsContainer = (props) => {
                 .number()
                 .required('Số lượng học sinh tối đa không được để trống'),
         }),
-        onSubmit: (event) => {
+        onSubmit: async (event) => {
             try {
-                // const username = formik.getFieldProps("email").value;
-                // const password = formik.getFieldProps("password").value;
-                // const response = await loginAccount(username, password);
-                // localStorage.setItem('token', response.data.data.token)
-                // localStorage.setItem('userInfo', JSON.stringify(response.data.data.userInfo))
-                // Router.push('/')
-                // event.preventDefault();
-                setOpenDialog(false)
+                const subject_id = formik.getFieldProps("subject_id").value;
+                const group = formik.getFieldProps("group").value;
+                const max_student = formik.getFieldProps("max_student").value;
+
+                if (classInfo) {
+                    await createClassService({
+                        subject_id,
+                        group,
+                        max_student,
+                        listSessionId: listIdChecked.map((session) => session.id)
+                    })
+                }
+                else {
+                    await updateClassService({
+                        subject_id,
+                        group,
+                        max_student,
+                        listSessionId: listIdChecked.map((session) => session.id),
+                        id: classInfo?.id
+                    })
+                }
+                router.push('/classes')
             }
             catch (error) {
                 setErrorMessage(error.response.data.message)
             }
         }
     });
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post('http://localhost:8080/patient', values)
-            .then((data) => {
-                router.push('/')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     axios.post('http://localhost:8080/patient', values)
+    //         .then((data) => {
+    //             router.push('/')
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    // }
 
     const handleChange = (event) => {
         setValues({
@@ -70,13 +90,25 @@ export const ClassDetailsContainer = (props) => {
         });
     };
 
+    const handleCheckboxChange = async (session_info) => {
+        const checkId = listIdChecked.find((sessionInfo) => sessionInfo.id === session_info.id);
+        if (checkId) {
+            setListIdChecked((listIdChecked) =>
+                listIdChecked.filter((sessionInfo) => sessionInfo.id !== session_info.id)
+            );
+        } else {
+            setListIdChecked((listIdChecked) => listIdChecked.concat([session_info]));
+        }
+    };
+
     return (
         <form
             autoComplete="off"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             {...props}
         >
+            <SimpleDialog handleCheckboxChange={handleCheckboxChange} listIdChecked={listIdChecked} setListIdChecked={setListIdChecked} open={open} setOpen={setOpen} />
 
             <Card>
                 <CardHeader
@@ -162,32 +194,22 @@ export const ClassDetailsContainer = (props) => {
                             md={6}
                             xs={12}
                         >
-                            <button className={classes.addClassButton}><AddIcon fontSize={'large'} className={classes.addClassIcon} /></button>
+                            <button className={classes.addClassButton} onClick={() => setOpen(true)} type='button'><AddIcon fontSize={'large'} className={classes.addClassIcon} /></button>
                         </Grid>
 
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <div className={classes.classInfoBox}><ClassInfo /></div>
-                        </Grid>
-
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <div className={classes.classInfoBox}><ClassInfo /></div>
-                        </Grid>
-                        <Grid
-                            item
-                            md={6}
-                            xs={12}
-                        >
-                            <div className={classes.classInfoBox}><ClassInfo /></div>
-                        </Grid>
-
+                        {
+                            listIdChecked?.map((sessionInfo) => <Grid
+                                item
+                                md={6}
+                                xs={12}
+                            >
+                                <div className={classes.classInfoBox}>
+                                    <Close className={classes.deleteIcon} onClick={() => {
+                                        handleCheckboxChange(sessionInfo)
+                                    }} />
+                                    <SessionInfo sessionInfo={sessionInfo} /></div>
+                            </Grid>)
+                        }
                     </Grid>
                 </CardContent>
 

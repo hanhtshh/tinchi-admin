@@ -30,3 +30,12 @@
   justify-content: right;
   margin-top: 15px;
 }
+
+.sessionInfoBox{
+  flex: 1;
+}
+
+.sessionInfo {
+  display: flex;
+  justify-content: space-between;
+}

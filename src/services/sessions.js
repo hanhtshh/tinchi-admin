@@ -1,11 +1,12 @@
 import axios from "axios"
 import config from "../config"
 
-const getListSessionService = async (pageSize, current) => {
+const getListSessionService = async (pageSize, current, date) => {
     const results = await axios.get(`${config.service_host}/session/get-all-session`, {
         params: {
             pageSize,
-            current
+            current,
+            date
         },
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`

@@ -19,6 +19,7 @@ import moment from 'moment';
 import { DeleteOutline, Edit } from '@mui/icons-material';
 import classes from './styles.module.css';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export const ClassListResults = (props) => {
   const { listClass, totalRows, isLoading, pageSize, current } = props;
@@ -113,7 +114,7 @@ export const ClassListResults = (props) => {
                     </TableCell>
                     <TableCell>
                       <DeleteOutline className={classes.icon} />
-                      {/* <Edit className={classes.icon} onClick={() => setOpenDialog(true)} /> */}
+                      <Link href={`/class/${class_detail?.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
                   </TableRow>
                 ))}
