@@ -32,7 +32,10 @@ function SimpleDialog(props) {
                 const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
                 response = await getListSessionService(8, 1, dateObject);
             }
-            response = await getListSessionService(8, 1);
+            else {
+                response = await getListSessionService(8, 1);
+
+            }
             setListClass(response?.sessions);
         } catch (error) {
             console.error(error);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import AddIcon from '@mui/icons-material/Add';
 import classes from './styles.module.css';
@@ -24,6 +24,9 @@ export const ClassDetailsContainer = (props) => {
     const [listIdChecked, setListIdChecked] = useState([])
     const { classInfo } = props;
     const [open, setOpen] = useState(false);
+    useEffect(() => {
+        setListIdChecked(classInfo?.sessionList)
+    }, [classInfo])
     const router = useRouter()
     const formik = useFormik({
         initialValues: {

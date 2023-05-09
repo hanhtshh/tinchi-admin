@@ -79,7 +79,7 @@ export const ClassListResults = (props) => {
                   <TableCell>
                     Ngày cập nhật
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{ whiteSpace: "nowrap" }}>
                     Hành động
                   </TableCell>
                 </TableRow>
@@ -112,7 +112,7 @@ export const ClassListResults = (props) => {
                     <TableCell>
                       {moment(class_detail?.updated_at).format('DD/MM/yyyy')}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ display: 'flex' }}>
                       <DeleteOutline className={classes.icon} />
                       <Link href={`/class/${class_detail?.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
