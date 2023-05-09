@@ -127,8 +127,8 @@ function SimpleDialog(props) {
                         />
                     </Box>
                     <div className={classes.listClassChoose}>
-                        {listCLass.map((classInfo) =>
-                            <div className={classes.classChoose}>
+                        {listCLass.map((classInfo, index) =>
+                            <div key={index} className={classes.classChoose}>
                                 <div className={classes.classInfoBox} style={{ display: "flex" }}>
                                     <ClassInfo classInfo={classInfo} />
                                     <input

@@ -198,10 +198,11 @@ export const ClassDetailsContainer = (props) => {
                         </Grid>
 
                         {
-                            listIdChecked?.map((sessionInfo) => <Grid
+                            listIdChecked?.map((sessionInfo, index) => <Grid
                                 item
                                 md={6}
                                 xs={12}
+                                key={index}
                             >
                                 <div className={classes.classInfoBox}>
                                     <Close className={classes.deleteIcon} onClick={() => {

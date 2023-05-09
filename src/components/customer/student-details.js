@@ -246,7 +246,8 @@ export const StudentDetailsContainer = (props) => {
                         </Grid>
 
                         {
-                            listIdChecked?.map((classInfo) => <Grid
+                            listIdChecked?.map((classInfo, index) => <Grid
+                                key={index}
                                 item
                                 md={6}
                                 xs={12}
