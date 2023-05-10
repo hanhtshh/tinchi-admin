@@ -30,9 +30,9 @@ export const ClassDetailsContainer = (props) => {
     const router = useRouter()
     const formik = useFormik({
         initialValues: {
-            subject_id: classInfo.subject_id || 0,
-            group: classInfo.group || 0,
-            max_student: classInfo.max_student || 0
+            subject_id: classInfo?.subject_id || 0,
+            group: classInfo?.group || 0,
+            max_student: classInfo?.max_student || 0
         },
         validationSchema: Yup.object({
             subject_id: Yup
@@ -51,7 +51,7 @@ export const ClassDetailsContainer = (props) => {
                 const group = formik.getFieldProps("group").value;
                 const max_student = formik.getFieldProps("max_student").value;
 
-                if (classInfo) {
+                if (!classInfo) {
                     await createClassService({
                         subject_id,
                         group,
@@ -230,7 +230,7 @@ export const ClassDetailsContainer = (props) => {
                         variant="contained"
                         type='submit'
                     >
-                        Thêm
+                        {classInfo ? "Lưu" : "Thêm"}
                     </Button>
                 </Box>
             </Card>
