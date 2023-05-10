@@ -87,7 +87,7 @@ function SimpleDialog(props) {
                                         }}
                                         type="checkbox"
                                         checked={
-                                            listIdChecked.find((class_info) => class_info.id === classInfo.id) ? true : false
+                                            listIdChecked?.find((class_info) => class_info.id === classInfo.id) ? true : false
                                         }
                                         onChange={(event) => handleCheckboxChange(classInfo)}
                                     />

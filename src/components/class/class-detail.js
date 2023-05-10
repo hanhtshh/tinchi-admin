@@ -25,7 +25,7 @@ export const ClassDetailsContainer = (props) => {
     const { classInfo } = props;
     const [open, setOpen] = useState(false);
     useEffect(() => {
-        setListIdChecked(classInfo?.sessionList)
+        setListIdChecked(classInfo?.sessionList || [])
     }, [classInfo])
     const router = useRouter()
     const formik = useFormik({
@@ -56,7 +56,7 @@ export const ClassDetailsContainer = (props) => {
                         subject_id,
                         group,
                         max_student,
-                        listSessionId: listIdChecked.map((session) => session.id)
+                        listSessionId: listIdChecked?.map((session) => session.id)
                     })
                 }
                 else {
@@ -64,7 +64,7 @@ export const ClassDetailsContainer = (props) => {
                         subject_id,
                         group,
                         max_student,
-                        listSessionId: listIdChecked.map((session) => session.id),
+                        listSessionId: listIdChecked?.map((session) => session.id),
                         id: classInfo?.id
                     })
                 }
