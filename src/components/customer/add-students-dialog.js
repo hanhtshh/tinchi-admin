@@ -23,7 +23,7 @@ function SimpleDialog(props) {
 
     const handleSearch = async () => {
         try {
-            const response = await getListClassService(3, 1, keySearch);
+            const response = await getListClassService(30, 1, keySearch);
             setListClass(response?.classes);
         } catch (error) {
             console.error(error);
