@@ -141,7 +141,7 @@ export const TeacherDetailsContainer = (props) => {
             <Card>
                 <CardHeader
 
-                    title="Thông tin sinh viên"
+                    title="Thông tin giảng viên"
                 />
                 <Divider />
                 <CardContent>
