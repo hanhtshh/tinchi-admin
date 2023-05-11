@@ -40,7 +40,7 @@
   min-height: 130px;
   border-radius: 8px;
   border: 1px solid #e6e8f0;
-  width: 500px;
+  width: 100%;
 }
 
 .classInfoBox {
@@ -48,7 +48,7 @@
   padding: 10px;
   border-radius: 8px;
   position: relative;
-  width: 500px;
+  width: 100%;
 }
 .deleteIcon {
   position: absolute;
