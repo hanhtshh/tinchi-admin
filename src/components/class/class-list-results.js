@@ -91,7 +91,7 @@ export const ClassListResults = (props) => {
                     key={class_detail.id}
                     selected={listClass.indexOf(class_detail.id) !== -1}
                   >
-                    <TableCell>{class_detail?.subject?.id}</TableCell>
+                    <TableCell>{class_detail?.id}</TableCell>
                     <TableCell>{class_detail?.subject?.name}</TableCell>
                     <TableCell>{class_detail?.group}</TableCell>
                     <TableCell>
