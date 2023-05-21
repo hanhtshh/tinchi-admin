@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Router from 'next/router';
 import { useFormik } from 'formik';
-import { addSessionService } from '../../services/sessions';
+import { addSessionService, updateSessionService } from '../../services/sessions';
 
 export const SessionDetailsContainer = (props) => {
     const { add_new_flag = false, sessionDetail } = props
@@ -49,9 +49,9 @@ export const SessionDetailsContainer = (props) => {
                     });
                 }
                 else {
-                    // const response = await updateSubjectService(sessionDetail?.id, {
-                    //     name, tinchi_number
-                    // })
+                    const response = await updateSessionService({
+                        date, start_time, total_time
+                    }, sessionDetail?.id);
                 }
                 Router.push('/sessions');
             }

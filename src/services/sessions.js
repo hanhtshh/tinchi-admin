@@ -24,6 +24,15 @@ const addSessionService = async (sessionInfo) => {
     return results?.data?.data
 }
 
+const updateSessionService = async (sessionInfo, id) => {
+    const results = await axios.put(`${config.service_host}/sessions/update/${id}`, sessionInfo, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    return results?.data?.data
+}
+
 
 const getDetailSessionService = async (id) => {
     const results = await axios.get(`${config.service_host}/session/get-session-info`, {
@@ -40,5 +49,6 @@ const getDetailSessionService = async (id) => {
 export {
     getListSessionService,
     addSessionService,
-    getDetailSessionService
+    getDetailSessionService,
+    updateSessionService
 }

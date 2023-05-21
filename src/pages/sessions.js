@@ -9,7 +9,7 @@ import { SessionListResults } from '../components/session/session-list-results';
 
 const Page = () => {
     const router = useRouter();
-    const { pageSize, current } = router.query;
+    const { pageSize = 10, current = 1 } = router.query;
     const { keySearch } = router.query
 
     const { data: listSession, isLoading } = useQuery(
@@ -46,7 +46,7 @@ const Page = () => {
                 <Container maxWidth={false}>
                     <SessionListToolbar keySearch={keySearch} setKeySearch={setKeySearch} />
                     <Box sx={{ mt: 3 }}>
-                        <SessionListResults listSession={listSession?.sessions} totalRows={listSession?.totalRows} isLoading={isLoading} />
+                        <SessionListResults listSession={listSession?.sessions} totalRows={listSession?.totalRows} isLoading={isLoading} pageSize={pageSize} current={current} />
                     </Box>
                 </Container>
             </Box>
