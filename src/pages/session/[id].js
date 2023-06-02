@@ -15,7 +15,7 @@ const Page = () => {
     const { data: sessionDetail } = useQuery(
         ['getDetailSession', id],
         () => getDetailSession(id),
-        { refetchOnWindowFocus: false, staleTime: 60 * 2000 }
+        { refetchOnWindowFocus: false, staleTime: 0, cacheTime: 0 }
     );
     return <>
         <Head>

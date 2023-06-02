@@ -15,7 +15,7 @@ const Page = () => {
     const { data: subjectDetail } = useQuery(
         ['getDetailSubject', id],
         () => getDetailSubject(id),
-        { refetchOnWindowFocus: false, staleTime: 60 * 2000 }
+        { refetchOnWindowFocus: false, staleTime: 0, cacheTime: 0 }
     );
     console.log(subjectDetail)
     return <>

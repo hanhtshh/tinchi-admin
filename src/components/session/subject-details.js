@@ -21,7 +21,8 @@ export const SessionDetailsContainer = (props) => {
         initialValues: {
             date: add_new_flag ? '' : sessionDetail?.date,
             start_time: add_new_flag ? 0 : sessionDetail?.start_time,
-            total_time: add_new_flag ? 0 : sessionDetail?.total_time
+            total_time: add_new_flag ? 0 : sessionDetail?.total_time,
+            place: add_new_flag ? 0 : sessionDetail?.place
         },
         validationSchema: Yup.object({
             date: Yup
@@ -37,20 +38,22 @@ export const SessionDetailsContainer = (props) => {
                 .max(24)
                 .min(0)
                 .required('Tổng thời gian học không được để trống'),
+            place: Yup.string().required('Địa điểm không được để trống')
         }),
         onSubmit: async () => {
             try {
                 const date = formik.getFieldProps("date").value;
                 const start_time = formik.getFieldProps("start_time").value;
                 const total_time = formik.getFieldProps("total_time").value;
+                const place = formik.getFieldProps("place").value;
                 if (add_new_flag) {
                     const response = await addSessionService({
-                        date, start_time, total_time
+                        date, start_time, total_time, place
                     });
                 }
                 else {
                     const response = await updateSessionService({
-                        date, start_time, total_time
+                        date, start_time, total_time, place
                     }, sessionDetail?.id);
                 }
                 Router.push('/sessions');
@@ -137,6 +140,24 @@ export const SessionDetailsContainer = (props) => {
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                                 value={formik.values.total_time}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={6}
+                            xs={12}
+                        >
+                            <TextField
+                                label="Địa điểm"
+                                className={classes.textField}
+                                error={Boolean(formik.touched.place && formik.errors.place)}
+                                helperText={formik.touched.place && formik.errors.place}
+                                margin="normal"
+                                name="place"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                value={formik.values.place}
                                 variant="outlined"
                             />
                         </Grid>
