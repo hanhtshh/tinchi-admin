@@ -9,6 +9,10 @@ const ClassInfo = ({ classInfo }) => {
             <div className={classes.classValue}>{classInfo?.subject?.name}</div>
         </div>
         <div className={classes.classInfo}>
+            <div className={classes.classKey}>Nhóm môn học:</div>
+            <div className={classes.classValue}>{classInfo?.group}</div>
+        </div>
+        <div className={classes.classInfo}>
             <div className={classes.classKey}>Trạng thái:</div>
             <div className={classes.classValue}>{classInfo?.status}</div>
         </div>
