@@ -6,9 +6,22 @@ import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config';
+import { useQuery } from '@tanstack/react-query';
 
 export const Sales = (props) => {
   const theme = useTheme();
+  const { data: dashboardData = [], isLoading } = useQuery(
+    ['getDasboardData'],
+    () => axios.get(`${config.service_host}/class/dashboard-data`)
+      .then((data) => {
+        return data.data?.data
+      })
+      .catch((error) => {
+        console.log(error)
+      }),
+    { refetchInterval: 30000 }
+  );
+
   const [last7daymac, setLast7daymac] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [last7daykhoe, setLast7daykhoee] = useState([0, 0, 0, 0, 0, 0, 0]);
   const data = useMemo(() => ({
@@ -37,15 +50,9 @@ export const Sales = (props) => {
     labels: [moment(Date.now()).add(-6, 'd').format('DD/MM'), moment(Date.now()).add(-5, 'd').format("DD/MM"), moment(Date.now()).add(-4, 'd').format("DD/MM"), moment(Date.now()).add(-3, 'd').format("DD/MM"), moment(Date.now()).add(-2, 'd').format("DD/MM"), moment(Date.now()).add(-1, 'd').format("DD/MM"), moment(Date.now()).format("DD/MM")]
   }), [last7daymac, last7daykhoe])
   useEffect(() => {
-    axios.get(`${config.service_host}/class/dashboard-data`)
-      .then((data) => {
-        setLast7daykhoee(data.data?.data?.map((slot) => slot?.emptySlot))
-        setLast7daymac(data.data?.data?.map((slot) => slot?.submitSlot))
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+    setLast7daykhoee(dashboardData?.map((slot) => slot?.emptySlot))
+    setLast7daymac(dashboardData?.map((slot) => slot?.submitSlot))
+  }, [dashboardData])
 
   const options = {
     animation: false,

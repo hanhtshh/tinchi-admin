@@ -6,22 +6,28 @@ import TabletIcon from '@mui/icons-material/Tablet';
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import config from '../../config';
+import { useQuery } from '@tanstack/react-query';
 
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
   const [totalEmpty, setTotalEmpty] = useState(0);
   const [submitSlot, setSubmitSlot] = useState(1);
-  useEffect(() => {
-    axios.get(`${config.service_host}/class/dashboard-data-2`)
+  const { data: dashboardData = [], isLoading } = useQuery(
+    ['getDasboardData2'],
+    () => axios.get(`${config.service_host}/class/dashboard-data-2`)
       .then((data) => {
-        setTotalEmpty(data.data?.data?.totalEmpty);
-        setSubmitSlot(data.data?.data?.submitSlot);
-
+        return data.data?.data
       })
       .catch((error) => {
         console.log(error)
-      })
-  }, [])
+      }),
+    { refetchInterval: 30000 }
+  );
+
+  useEffect(() => {
+    setTotalEmpty(dashboardData?.totalEmpty || 0);
+    setSubmitSlot(dashboardData?.submitSlot || 1);
+  }, [dashboardData])
   const data = useMemo(() => ({
     datasets: [
       {

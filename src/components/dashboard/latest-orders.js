@@ -21,19 +21,22 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config';
+import { useQuery } from '@tanstack/react-query';
 
 
 export const LatestOrders = (props) => {
-  const [latestPatient, setLastestPatient] = useState([]);
-  useEffect(() => {
-    axios.get(`${config.service_host}/class/dashboard-data-3`)
+  const { data: latestPatient = [], isLoading } = useQuery(
+    ['getDasboardData3'],
+    () => axios.get(`${config.service_host}/class/dashboard-data-3`)
       .then((data) => {
-        setLastestPatient(data.data?.data)
+        return data.data?.data
       })
       .catch((error) => {
         console.log(error)
-      })
-  }, [])
+      }),
+    { refetchInterval: 30000 }
+  );
+
   const router = useRouter();
   return <Card {...props}>
     <CardHeader title="Lớp học có sinh viên đăng kí nhiều nhất" />
