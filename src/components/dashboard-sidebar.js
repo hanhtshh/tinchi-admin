@@ -18,11 +18,11 @@ import { NavItem } from './nav-item';
 import { Menu } from '../icons/menu';
 
 const items = [
-  // {
-  //   href: '/',
-  //   icon: (<ChartBarIcon fontSize="small" />),
-  //   title: 'Dashboard'
-  // },
+  {
+    href: '/',
+    icon: (<ChartBarIcon fontSize="small" />),
+    title: 'Dashboard'
+  },
   {
     href: '/students',
     icon: (<UsersIcon fontSize="small" />),

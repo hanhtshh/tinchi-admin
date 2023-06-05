@@ -5,20 +5,27 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import TabletIcon from '@mui/icons-material/Tablet';
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
+import config from '../../config';
 
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
-  const [tile, setTile] = useState(0);
+  const [totalEmpty, setTotalEmpty] = useState(0);
+  const [submitSlot, setSubmitSlot] = useState(1);
   useEffect(() => {
-    axios.get('http://localhost:8080/ti-le')
+    axios.get(`${config.service_host}/class/dashboard-data-2`)
       .then((data) => {
-        setTile(data.data.data.mac / (data.data.data.khoe + data.data.data.mac) * 100)
+        setTotalEmpty(data.data?.data?.totalEmpty);
+        setSubmitSlot(data.data?.data?.submitSlot);
+
+      })
+      .catch((error) => {
+        console.log(error)
       })
   }, [])
   const data = useMemo(() => ({
     datasets: [
       {
-        data: [100 - tile, tile],
+        data: [submitSlot, totalEmpty],
         backgroundColor: ['#3F51B5', '#e53935', '#FB8C00'],
         borderWidth: 8,
         borderColor: '#FFFFFF',
@@ -26,7 +33,7 @@ export const TrafficByDevice = (props) => {
       }
     ],
     labels: ['Đã đăng kí', 'Còn trống']
-  }), [tile])
+  }), [totalEmpty, submitSlot])
 
   const options = {
     animation: false,
@@ -53,17 +60,17 @@ export const TrafficByDevice = (props) => {
   const devices = useMemo(() => [
     {
       title: 'Đã đăng kí',
-      value: Math.round(100 - tile),
+      value: Math.round(100 * submitSlot / (totalEmpty + submitSlot)),
       icon: LaptopMacIcon,
       color: '#3F51B5'
     },
     {
       title: 'Còn trống',
-      value: Math.round(tile),
+      value: Math.round(100 * totalEmpty / (totalEmpty + submitSlot)),
       icon: TabletIcon,
       color: '#E53935'
     }
-  ], [tile])
+  ], [totalEmpty, submitSlot])
 
   return (
     <Card {...props}>
@@ -101,7 +108,7 @@ export const TrafficByDevice = (props) => {
                 textAlign: 'center'
               }}
             >
-          
+
               <Typography
                 color="textPrimary"
                 variant="body1"

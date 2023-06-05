@@ -5,6 +5,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import config from '../../config';
 
 export const Sales = (props) => {
   const theme = useTheme();
@@ -36,12 +37,14 @@ export const Sales = (props) => {
     labels: [moment(Date.now()).add(-6, 'd').format('DD/MM'), moment(Date.now()).add(-5, 'd').format("DD/MM"), moment(Date.now()).add(-4, 'd').format("DD/MM"), moment(Date.now()).add(-3, 'd').format("DD/MM"), moment(Date.now()).add(-2, 'd').format("DD/MM"), moment(Date.now()).add(-1, 'd').format("DD/MM"), moment(Date.now()).format("DD/MM")]
   }), [last7daymac, last7daykhoe])
   useEffect(() => {
-    axios.get('http://localhost:8080/lastes')
-      .then(data => {
-        setLast7daymac(data.data.macArray)
-        setLast7daykhoee(data.data.khoeArray)
+    axios.get(`${config.service_host}/class/dashboard-data`)
+      .then((data) => {
+        setLast7daykhoee(data.data?.data?.map((slot) => slot?.emptySlot))
+        setLast7daymac(data.data?.data?.map((slot) => slot?.submitSlot))
       })
-      .catch(error => console.log(error))
+      .catch((error) => {
+        console.log(error)
+      })
   }, [])
 
   const options = {

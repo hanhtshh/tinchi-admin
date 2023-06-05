@@ -20,22 +20,23 @@ import { SeverityPill } from '../severity-pill';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import config from '../../config';
 
 
 export const LatestOrders = (props) => {
   const [latestPatient, setLastestPatient] = useState([]);
-  // useEffect(() => {
-  //   axios.get(`http://localhost:8080/patients?page=${0}`)
-  //     .then((data) => {
-  //       setLastestPatient(data.data.data)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }, [])
+  useEffect(() => {
+    axios.get(`${config.service_host}/class/dashboard-data-3`)
+      .then((data) => {
+        setLastestPatient(data.data?.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
   const router = useRouter();
   return <Card {...props}>
-    <CardHeader title="Sinh viên đăng kí gần nhất" />
+    <CardHeader title="Lớp học có sinh viên đăng kí nhiều nhất" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
         <Table>
@@ -45,20 +46,16 @@ export const LatestOrders = (props) => {
                 ID
               </TableCell>
               <TableCell>
-                Name
+                Tên môn học
               </TableCell>
-              <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
-                    Time
-                  </TableSortLabel>
-                </Tooltip>
+              <TableCell>
+                NMH
+              </TableCell>
+              <TableCell >
+                Sĩ số hiện tại
+              </TableCell>
+              <TableCell >
+                Sĩ số tối đa
               </TableCell>
               <TableCell>
                 Status
@@ -69,23 +66,29 @@ export const LatestOrders = (props) => {
             {latestPatient.map((patient) => (
               <TableRow
                 hover
-                key={patient._id}
+                key={patient?.id}
               >
                 <TableCell>
-                  {patient._id}
+                  {patient?.id}
                 </TableCell>
                 <TableCell>
-                  {"Hanh"}
+                  {patient?.subject?.name}
                 </TableCell>
                 <TableCell>
-                  {moment(patient.createdAt).format('DD/MM/YYYY-hh:mm:ss')}
+                  {patient?.group}
+                </TableCell>
+                <TableCell>
+                  {patient?.total_student}
+                </TableCell>
+                <TableCell>
+                  {patient?.max_student}
                 </TableCell>
                 <TableCell>
                   <SeverityPill
-                    color={(patient.Outcome === 0 && 'success')
-                      || (patient.Outcome === 1 && 'error' || 'warning')}
+                    color={(patient?.status === "OPEN" && 'success')
+                      || (patient?.status === "OPEN" && 'error' || 'warning')}
                   >
-                    {patient.Outcome === 0 ? "Đã đăng kí" : "Còn trống"}
+                    {patient?.status === "OPEN" ? "OPEN" : "CLOSE"}
                   </SeverityPill>
                 </TableCell>
               </TableRow>
@@ -107,7 +110,7 @@ export const LatestOrders = (props) => {
         size="small"
         variant="text"
         onClick={() => {
-          router.push('/patients')
+          router.push('/classes')
         }}
       >
         View all
