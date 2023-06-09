@@ -21,7 +21,7 @@ export const TrafficByDevice = (props) => {
       .catch((error) => {
         console.log(error)
       }),
-    { refetchInterval: 30000 }
+    { refetchInterval: 5000 }
   );
 
   useEffect(() => {

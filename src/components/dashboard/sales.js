@@ -19,7 +19,7 @@ export const Sales = (props) => {
       .catch((error) => {
         console.log(error)
       }),
-    { refetchInterval: 30000 }
+    { refetchInterval: 5000 }
   );
 
   const [last7daymac, setLast7daymac] = useState([0, 0, 0, 0, 0, 0, 0]);
