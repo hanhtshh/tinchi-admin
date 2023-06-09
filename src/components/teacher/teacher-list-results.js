@@ -124,7 +124,7 @@ export const TeacherListResults = (props) => {
                       {moment(customer?.updated_at).format('DD/MM/yyyy')}
                     </TableCell>
                     <TableCell>
-                      <DeleteOutline className={classes.icon} />
+                      {/* <DeleteOutline className={classes.icon} /> */}
                       <Link href={`/teacher/${customer.id}`}>
                         <Edit className={classes.icon} />
                       </Link>

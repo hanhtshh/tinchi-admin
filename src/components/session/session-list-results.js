@@ -102,7 +102,7 @@ export const SessionListResults = (props) => {
                       {moment(session?.updated_at).format('DD/MM/yyyy')}
                     </TableCell>
                     <TableCell>
-                      <DeleteOutline className={classes.icon} />
+                      {/* <DeleteOutline className={classes.icon} /> */}
                       <Link href={`/session/${session?.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
                   </TableRow>

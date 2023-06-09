@@ -94,7 +94,7 @@ export const SubjectListResults = (props) => {
                       {moment(subject_detail?.updated_at).format('DD/MM/yyyy')}
                     </TableCell>
                     <TableCell>
-                      <DeleteOutline className={classes.icon} />
+                      {/* <DeleteOutline className={classes.icon} /> */}
                       <Link href={`/subject/${subject_detail.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
                   </TableRow>

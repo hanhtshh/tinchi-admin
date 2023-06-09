@@ -9,9 +9,20 @@ import { TotalCustomers } from '../components/dashboard/total-customers';
 import { TotalProfit } from '../components/dashboard/total-profit';
 import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { useCallback, useState } from 'react';
 
-const Page = () => (
-  <>
+const Page = () => {
+  const [state, setState] = useState(5);
+  const check1 = useCallback(() => {
+    setState(state => state + 2)
+  }, [setState]);
+  const check2 = useCallback(() => {
+    setState(state => state + 3)
+  }, []);
+  const test = () => {
+    setState(11);
+  }
+  return <>
     <Head>
       <title>
         Dashboard
@@ -24,6 +35,11 @@ const Page = () => (
         py: 8
       }}
     >
+      <div style={{ zIndex: 1000 }}><button onClick={check1}>check1</button>
+        <button onClick={check2}>check2</button>
+        <button onClick={test}>test</button>
+      </div>
+      {state}
       <Container maxWidth={false}>
         <Grid
           container
@@ -61,7 +77,7 @@ const Page = () => (
       </Container>
     </Box>
   </>
-);
+}
 
 Page.getLayout = (page) => (
   <DashboardLayout>

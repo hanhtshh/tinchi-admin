@@ -113,7 +113,7 @@ export const ClassListResults = (props) => {
                       {moment(class_detail?.updated_at).format('DD/MM/yyyy')}
                     </TableCell>
                     <TableCell style={{ display: 'flex' }}>
-                      <DeleteOutline className={classes.icon} />
+                      {/* <DeleteOutline className={classes.icon} /> */}
                       <Link href={`/class/${class_detail?.id}`}><Edit className={classes.icon} /></Link>
                     </TableCell>
                   </TableRow>
